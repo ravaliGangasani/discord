@@ -2,6 +2,7 @@ package main
 
 import (
 	config2 "github.com/discord_login/config"
+	"github.com/discord_login/cosmos"
 	"github.com/discord_login/discord_bot"
 	"github.com/discord_login/discordoauth"
 	"github.com/discord_login/logger"
@@ -9,7 +10,8 @@ import (
 	"golang.org/x/oauth2"
 	"log"
 	"net/http"
-	"os"
+	//"os"
+	"fmt"
 )
 
 func main() {
@@ -30,12 +32,18 @@ func main() {
 
 	router := mux.NewRouter()
 	discordoauth.Router(router, conf)
-
-	cfg := &config2.BotConfig{
-		Token: os.Getenv("TOKEN"),
+	//fmt.Println(os.Args[1])
+	cfg, err := config2.Parse("/home/ravali/go/src/github.com/discord_login/config.json")
+	if err !=nil {
+		log.Fatal("error while reading config file: ", err.Error())
+	}
+	fmt.Println("file data parsed successfully: ", cfg)
+	client, err := cosmos.NewClient(cfg.ChainConfig)
+	if err != nil {
+		log.Fatal(err.Error())
 	}
 
-	bot, err := discord_bot.Create(cfg)
+	bot, err := discord_bot.Create(cfg.BotConfig, client)
 	if err != nil {
 		log.Fatal("Error: ", err.Error())
 	}
@@ -46,3 +54,4 @@ func main() {
 		log.Fatal(err.Error())
 	}
 }
+

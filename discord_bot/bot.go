@@ -6,16 +6,17 @@ import (
 	"github.com/andersfylling/disgord"
 	"github.com/andersfylling/disgord/std"
 	"github.com/discord_login/config"
+	"github.com/discord_login/cosmos"
 	"github.com/ethereum/go-ethereum/log"
 )
 
 type Bot struct {
 	cfg     *config.BotConfig
 	discord *disgord.Client
-	//cosmosClient *cosmos.Client
+	cosmosClient *cosmos.Client
 }
 
-func Create(conf *config.BotConfig) (*Bot, error) {
+func Create(conf *config.BotConfig, client *cosmos.Client) (*Bot, error) {
 	if conf.Prifix == "" {
 		conf.Prifix = "!"
 	}
@@ -46,6 +47,7 @@ func Create(conf *config.BotConfig) (*Bot, error) {
 	return &Bot{
 		cfg:     conf,
 		discord: discordClient,
+		cosmosClient: client,
 	}, nil
 }
 
@@ -63,6 +65,7 @@ func (bot *Bot) Start() {
 	handler.MessageCreate(
 		bot.HandleHelp,
 		bot.HandleQueryBalance,
+		bot.HandleFaucet,
 		)
 
 	fmt.Println("listening for messages...")

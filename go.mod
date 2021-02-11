@@ -8,6 +8,8 @@ require (
 	github.com/ethereum/go-ethereum v1.9.25
 	github.com/gorilla/mux v1.8.0
 	github.com/pelletier/go-toml v1.8.1
+	github.com/spf13/pflag v1.0.5
+	github.com/tendermint/tendermint v0.34.3
 	golang.org/x/oauth2 v0.0.0-20210201163806-010130855d6c
 )
 
