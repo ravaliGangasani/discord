@@ -5,9 +5,9 @@ import (
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/crypto/hd"
 	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
-	"github.com/cosmos/cosmos-sdk/simapp/params"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/x/auth/types"
+	"github.com/ravaliGangasani/autonomy/app"
 	rpchttp "github.com/tendermint/tendermint/rpc/client/http"
 
 	"github.com/discord_login/config"
@@ -53,7 +53,7 @@ func NewClient(chainCfg *config.ChainConfig) (*Client, error) {
 	sdkCfg.Seal()
 
 	// Build the context
-	encodingConfig := params.MakeTestEncodingConfig()
+	encodingConfig := app.MakeEncodingConfig()
 	cliCtx := client.Context{}.
 		WithJSONMarshaler(encodingConfig.Marshaler).
 		WithInterfaceRegistry(encodingConfig.InterfaceRegistry).

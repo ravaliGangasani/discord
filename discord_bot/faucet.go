@@ -35,15 +35,12 @@ func (bot *Bot) HandleFaucet(s disgord.Session, data *disgord.MessageCreate) {
 		return
 	}
 
-	fmt.Println("Address: ", addr.String())
-	fmt.Println("FromAddress", bot.cosmosClient.AccAddress())
 	txMsg := &types.MsgSend{
 		FromAddress: bot.cosmosClient.AccAddress(),
 		ToAddress: addr.String(),
 		Amount: sdk.NewCoins(sdk.NewCoin("cent", sdk.NewInt(1000000))),
 	}
 
-	fmt.Println("Sending coins")
 	res, err := bot.cosmosClient.BroadcastTx(txMsg)
 	if err != nil {
 		fmt.Println("error sending coins: ", err.Error())
@@ -52,7 +49,7 @@ func (bot *Bot) HandleFaucet(s disgord.Session, data *disgord.MessageCreate) {
 	} else {
 		bot.React(msg, s, keys.ReactionDone)
 		bot.Reply(msg, s, fmt.Sprintf(
-			"Your tokens have been sent successfully. You can see it by running `desmos q tx %s`."+
+			"Your tokens have been sent successfully. You can see it by running `autonomy q tx %s`."+
 				"If your balance does not update in the next seconds, make sure your node is synced.", res.TxHash,
 		))
 	}

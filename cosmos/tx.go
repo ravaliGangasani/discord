@@ -51,9 +51,7 @@ func (client *Client) createSignedTx(msgs ...sdk.Msg) ([]byte, error) {
 		WithFees(client.fees).
 		WithSignMode(signing.SignMode_SIGN_MODE_DIRECT)
 	// Create the factory
-	fmt.Println("factoryCLI: ", factoryCLI)
 	factory, err := tx.PrepareFactory(client.cliCtx, factoryCLI)
-	fmt.Println("{{{{{{{{{{{{{{{{{: ", err)
 	if err != nil {
 		return nil, err
 	}
@@ -82,7 +80,6 @@ func (client *Client) BroadcastTx(msgs ...sdk.Msg) (*sdk.TxResponse, error) {
 	// Build the transaction
 	txBytes, err := client.createSignedTx(msgs...)
 	if err != nil {
-		fmt.Println("{{{{{{{{{{{{{{")
 		return nil, err
 	}
 	fmt.Println("TxBytes: ", txBytes)
