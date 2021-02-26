@@ -73,8 +73,6 @@ func (bot *Bot) Start() {
 
 // Reply sends a Discord message as a reply to the given msg
 func (bot *Bot) Reply(msg *disgord.Message, s disgord.Session, message string) {
-	fmt.Println("Author: ",msg.Author)
-	fmt.Println("ChannelID: ", msg.ChannelID)
 
 	//_, _, err := msg.Author.SendMsg(context.Background(), s, &disgord.Message{
 	//	Type:    disgord.MessageTypeDefault,

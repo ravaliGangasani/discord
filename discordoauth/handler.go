@@ -8,19 +8,18 @@ import (
 	"net/http"
 )
 
-func AuthorizeLoginHandlerFn(conf *oauth2.Config) http.HandlerFunc{
+func AuthorizeLoginHandlerFn(conf *oauth2.Config, cfg *config2.Config) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, conf.AuthCodeURL(config2.STATE), http.StatusSeeOther)
+		http.Redirect(w, r, conf.AuthCodeURL(cfg.State), http.StatusSeeOther)
 	}
 }
 
-
-func LoginRedirectHandlerFn(conf *oauth2.Config) http.HandlerFunc {
+func LoginRedirectHandlerFn(conf *oauth2.Config, cfg *config2.Config) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		code := r.URL.Query().Get("code")
 		state := r.URL.Query().Get("state")
 
-		if state != config2.STATE {
+		if state != cfg.State {
 			w.WriteHeader(http.StatusBadRequest)
 			w.Write([]byte("State does not match"))
 			return
@@ -33,7 +32,7 @@ func LoginRedirectHandlerFn(conf *oauth2.Config) http.HandlerFunc {
 		}
 
 		res, err := conf.Client(oauth2.NoContext, token).Get("https://discordapp.com/api/v6/users/@me")
-		if err != nil{
+		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte("error while accessing user details"))
 			return
@@ -41,7 +40,7 @@ func LoginRedirectHandlerFn(conf *oauth2.Config) http.HandlerFunc {
 
 		defer res.Body.Close()
 		bz, err := ioutil.ReadAll(res.Body)
-		if err != nil{
+		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte("error while reading data from response"))
 			return

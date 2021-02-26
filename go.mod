@@ -9,6 +9,8 @@ require (
 	github.com/gorilla/mux v1.8.0
 	github.com/pelletier/go-toml v1.8.1 // indirect
 	github.com/ravaliGangasani/autonomy v0.0.0-00010101000000-000000000000
+	github.com/rs/zerolog v1.20.0
+	github.com/spf13/cobra v1.1.1
 	github.com/spf13/pflag v1.0.5
 	github.com/tendermint/tendermint v0.34.3
 	golang.org/x/oauth2 v0.0.0-20210201163806-010130855d6c

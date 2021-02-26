@@ -22,16 +22,20 @@ func (bot *Bot) HandleQueryBalance(s disgord.Session, data *disgord.MessageCreat
 	}
 
 	path := strings.Split(msg.Content, " ")
+	if path[1] == "" {
+		bot.Reply(msg, s, "No address provided")
+		return
+	}
 	addr, err := types.AccAddressFromBech32(path[1])
 	if err != nil {
-		fmt.Println("Invalid address provided", err.Error())
+		bot.Reply(msg, s, "invalid address")
 		return
 	}
 
-	url:= fmt.Sprintf("http://localhost:1317/bank/balances/%s", addr)
+	url := fmt.Sprintf("http://localhost:1317/bank/balances/%s", addr)
 	res, err := http.Get(url)
 	if err != nil {
-		fmt.Println("error while querying balance: ", err.Error())
+		bot.Reply(msg, s, "error while fetching balance")
 		return
 	}
 
@@ -43,7 +47,6 @@ func (bot *Bot) HandleQueryBalance(s disgord.Session, data *disgord.MessageCreat
 }
 
 type ResponseBody struct {
-	Height int64 `json:"height"`
+	Height int64           `json:"height"`
 	Result json.RawMessage `json:"result"`
 }
-

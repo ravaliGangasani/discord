@@ -1,17 +1,31 @@
 package config
 
 import (
-	"io/ioutil"
 	"encoding/json"
+	"io/ioutil"
 )
 
-const AuthRedirectUrl = "https://discord.com/api/oauth2/authorize?client_id=806764091020279848&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Foauth2%2Flogin%2Fredirect&response_type=code&scope=identify"
 const STATE = "secret"
 const SCOPEIDENTY = "identify"
 
 type Config struct {
-	BotConfig   *BotConfig  `json:"bot_config"`
+	OauthConfig OauthConfig  `json:"oauth_config"`
+	BotConfig   *BotConfig   `json:"bot_config"`
 	ChainConfig *ChainConfig `json:"chain_config"`
+	State       string       `json:"state"`
+}
+
+type OauthConfig struct {
+	ClientID     string   `json:"client_id"`
+	ClientSecret string   `json:"client_secret"`
+	RedirectURL  string   `json:"redirect_url"`
+	EndPoint     EndPoint `json:"end_point"`
+	Scope        string   `json:"scope"`
+}
+
+type EndPoint struct {
+	AuthURL  string `json:"auth_url"`
+	TokenURL string `json:"token_url"`
 }
 
 type BotConfig struct {

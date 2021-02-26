@@ -13,7 +13,6 @@ const (
 
 func (bot *Bot) HandleHelp(s disgord.Session, data *disgord.MessageCreate) {
 	msg := data.Message
-	fmt.Println("MSG: ", msg.ID)
 	if !strings.HasPrefix(msg.Content, HelpCmd) {
 		return
 	}
@@ -29,6 +28,6 @@ func (bot *Bot) HandleHelp(s disgord.Session, data *disgord.MessageCreate) {
 			"- `!%s` - to request balance from faucet",
 		HelpCmd,
 		BalanceCmd,
-		FaucetCmd,
+		SendCmd,
 	))
 }

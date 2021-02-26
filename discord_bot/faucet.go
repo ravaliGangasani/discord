@@ -10,12 +10,12 @@ import (
 )
 
 const (
-	FaucetCmd = "faucet"
+	SendCmd = "send"
 )
 
 func (bot *Bot) HandleFaucet(s disgord.Session, data *disgord.MessageCreate) {
 	msg := data.Message
-	if !strings.HasPrefix(msg.Content, FaucetCmd) {
+	if !strings.HasPrefix(msg.Content, SendCmd) {
 		return
 	}
 
@@ -28,7 +28,6 @@ func (bot *Bot) HandleFaucet(s disgord.Session, data *disgord.MessageCreate) {
 	fmt.Println("paths: ", path[1])
 
 	addr, err := sdk.AccAddressFromBech32(path[1])
-
 	if err != nil {
 		bot.React(msg, s, keys.ReactionWarning)
 		bot.Reply(msg, s, "invalid address provided")
@@ -42,8 +41,9 @@ func (bot *Bot) HandleFaucet(s disgord.Session, data *disgord.MessageCreate) {
 	}
 
 	res, err := bot.cosmosClient.BroadcastTx(txMsg)
+	fmt.Println("response:", res)
 	if err != nil {
-		fmt.Println("error sending coins: ", err.Error())
+		fmt.Println("error: ", err.Error())
 		bot.Reply(msg, s, "error while sending coins")
 		bot.React(msg, s, keys.ReactionWarning)
 	} else {
