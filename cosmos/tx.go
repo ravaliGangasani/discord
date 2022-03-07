@@ -7,7 +7,6 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/tx/signing"
 	authsigning "github.com/cosmos/cosmos-sdk/x/auth/signing"
 	"github.com/spf13/pflag"
-	"fmt"
 )
 
 // signTx signs the transaction that can be obtained from the given factory and builder,
@@ -82,7 +81,6 @@ func (client *Client) BroadcastTx(msgs ...sdk.Msg) (*sdk.TxResponse, error) {
 	if err != nil {
 		return nil, err
 	}
-	fmt.Println("TxBytes: ", txBytes)
 	// Broadcast the transaction to a Tendermint node
 	return client.cliCtx.BroadcastTx(txBytes)
 }
