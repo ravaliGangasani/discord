@@ -2,9 +2,10 @@ package discord_bot
 
 import (
 	"fmt"
+	"strings"
+
 	"github.com/andersfylling/disgord"
 	"github.com/discord_login/keys"
-	"strings"
 )
 
 const (
@@ -25,9 +26,11 @@ func (bot *Bot) HandleHelp(s disgord.Session, data *disgord.MessageCreate) {
 		"Here are the available command:\n"+
 			"- `!%s` - to get help\n"+
 			"- `!%s` - to get account balance\n"+
-			"- `!%s` - to request balance from faucet",
+			"- `!%s` - to connect blockchain address to user\n"+
+			"- `!%s` - to claim rewards to user\n",
 		HelpCmd,
 		BalanceCmd,
-		SendCmd,
+		ConnectAddrCmd,
+		ClaimCmd,
 	))
 }

@@ -43,44 +43,40 @@ func (client *Client) signTx(factory tx.Factory, builder client.TxBuilder) (sign
 	)
 }
 
-// createSignedTx builds and signs a transaction containing the given messages
-func (client *Client) createSignedTx(msgs ...sdk.Msg) ([]byte, error) {
-	// Build the factory CLI
-	factoryCLI := tx.NewFactoryCLI(client.cliCtx, &pflag.FlagSet{}).
-		WithFees(client.fees).
-		WithSignMode(signing.SignMode_SIGN_MODE_DIRECT)
-	// Create the factory
-	factory, err := tx.PrepareFactory(client.cliCtx, factoryCLI)
-	if err != nil {
-		return nil, err
-	}
-	// Build an unsigned transaction
-	builder, err := tx.BuildUnsignedTx(factory, msgs...)
-	if err != nil {
-		return nil, err
-	}
+// // createSignedTx builds and signs a transaction containing the given messages
+// func (client *Client) createSignedTx(msgs ...sdk.Msg) ([]byte, error) {
+// 	// Build the factory CLI
 
-	sig, err := client.signTx(factory, builder)
-	if err != nil {
-		return nil, err
-	}
+// 	factory, err := tx.GenerateOrBroadcastTxCLI(client.cliCtx, &pflag.FlagSet{}, factoryCLI)
+// 	if err != nil {
+// 		return nil, err
+// 	}
+// 	// Build an unsigned transaction
+// 	builder, err := tx.BuildUnsignedTx(factory, msgs...)
+// 	if err != nil {
+// 		return nil, err
+// 	}
 
-	// Set the signatures
-	err = builder.SetSignatures(sig)
-	if err != nil {
-		return nil, err
-	}
-	// Encode the transaction
-	return client.cliCtx.TxConfig.TxEncoder()(builder.GetTx())
-}
+// 	sig, err := client.signTx(factory, builder)
+// 	if err != nil {
+// 		return nil, err
+// 	}
+
+// 	// Set the signatures
+// 	err = builder.SetSignatures(sig)
+// 	if err != nil {
+// 		return nil, err
+// 	}
+// 	// Encode the transaction
+// 	return client.cliCtx.TxConfig.TxEncoder()(builder.GetTx())
+// }
 
 // BroadcastTx allows to broadcast a transaction containing the given messages
 func (client *Client) BroadcastTx(msgs ...sdk.Msg) (*sdk.TxResponse, error) {
 	// Build the transaction
-	txBytes, err := client.createSignedTx(msgs...)
+	err := tx.GenerateOrBroadcastTxCLI(client.cliCtx, &pflag.FlagSet{}, msgs...)
 	if err != nil {
 		return nil, err
 	}
-	// Broadcast the transaction to a Tendermint node
-	return client.cliCtx.BroadcastTx(txBytes)
+	return nil, err
 }

@@ -3,11 +3,11 @@ package discord_bot
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/andersfylling/disgord"
-	"github.com/cosmos/cosmos-sdk/types"
 	"io/ioutil"
 	"net/http"
 	"strings"
+
+	"github.com/andersfylling/disgord"
 )
 
 const (
@@ -26,13 +26,8 @@ func (bot *Bot) HandleQueryBalance(s disgord.Session, data *disgord.MessageCreat
 		bot.Reply(msg, s, "No address provided")
 		return
 	}
-	addr, err := types.AccAddressFromBech32(path[1])
-	if err != nil {
-		bot.Reply(msg, s, "invalid address")
-		return
-	}
 
-	url := fmt.Sprintf("http://localhost:1317/bank/balances/%s", addr)
+	url := fmt.Sprintf("http://20.102.97.37:1317/bank/balances/%s", path[1])
 	res, err := http.Get(url)
 	if err != nil {
 		bot.Reply(msg, s, "error while fetching balance")

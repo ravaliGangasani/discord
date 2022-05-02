@@ -3,6 +3,7 @@ package discord_bot
 import (
 	"context"
 	"fmt"
+
 	"github.com/andersfylling/disgord"
 	"github.com/andersfylling/disgord/std"
 	"github.com/discord_login/config"
@@ -11,8 +12,8 @@ import (
 )
 
 type Bot struct {
-	cfg     *config.BotConfig
-	discord *disgord.Client
+	cfg          *config.BotConfig
+	discord      *disgord.Client
 	cosmosClient *cosmos.Client
 }
 
@@ -45,8 +46,8 @@ func Create(conf *config.BotConfig, client *cosmos.Client) (*Bot, error) {
 	})
 
 	return &Bot{
-		cfg:     conf,
-		discord: discordClient,
+		cfg:          conf,
+		discord:      discordClient,
 		cosmosClient: client,
 	}, nil
 }
@@ -66,7 +67,9 @@ func (bot *Bot) Start() {
 		bot.HandleHelp,
 		bot.HandleQueryBalance,
 		bot.HandleFaucet,
-		)
+		bot.HandleConnectAddres,
+		bot.HandleClaim,
+	)
 
 	fmt.Println("listening for messages...")
 }
