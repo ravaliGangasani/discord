@@ -66,7 +66,6 @@ func (bot *Bot) Start() {
 	handler.MessageCreate(
 		bot.HandleHelp,
 		bot.HandleQueryBalance,
-		bot.HandleFaucet,
 		bot.HandleConnectAddres,
 		bot.HandleClaim,
 	)
